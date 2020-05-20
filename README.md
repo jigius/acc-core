@@ -1,2 +1,2 @@
 # acc-core
-The base artifacts
+The set of core artifacts

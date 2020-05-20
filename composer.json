@@ -1,0 +1,23 @@
+{
+    "name": "jigius/acc-core",
+    "description": "The set of core artifacts",
+    "type": "package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jigius",
+            "email": "jigius@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Acc\\Core\\": "src/"
+        }
+    },
+    "require-dev": {
+    }
+}

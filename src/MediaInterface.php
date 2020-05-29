@@ -3,7 +3,7 @@ namespace Acc\Core;
 
 /**
  * Interface MediaInterface
- * Adds capability to printing out itsself into passed object with using of `PrinterInterface` contract
+ * Adds capability to printing out itself into passed object with using of `PrinterInterface` contract
  * @package Acc\Core
  */
 interface MediaInterface

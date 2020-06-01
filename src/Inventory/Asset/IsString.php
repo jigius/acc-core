@@ -1,4 +1,16 @@
 <?php
+/**
+ * This file is part of the jigius/acc-core library
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright Copyright (c) 2020 Jigius <jigius@gmail.com>
+ * @link https://github.com/jigius/acc-core GitHub
+ */
+
+declare(strict_types=1);
+
 namespace Acc\Core\Inventory\Asset;
 
 use Acc\Core\Inventory\AssetInterface;
@@ -12,7 +24,7 @@ class IsString implements AssetInterface
 {
     /**
      * A decorated asset
-     * @var Vanilla|AssetInterface
+     * @var Stub|AssetInterface
      */
     private AssetInterface $orig;
 
@@ -24,7 +36,7 @@ class IsString implements AssetInterface
     {
         $this->orig =
             new IsDefined(
-                $asset ?? new Vanilla()
+                $asset ?? new Stub()
             );
     }
 

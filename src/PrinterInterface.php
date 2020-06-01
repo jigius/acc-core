@@ -1,4 +1,16 @@
 <?php
+/**
+ * This file is part of the jigius/acc-core library
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright Copyright (c) 2020 Jigius <jigius@gmail.com>
+ * @link https://github.com/jigius/acc-core GitHub
+ */
+
+declare(strict_types=1);
+
 namespace Acc\Core;
 
 /**
@@ -10,11 +22,11 @@ interface PrinterInterface
 {
     /**
      * Feeds an instance with new portion of a data for printing
-     * @param $key mixed The key name for passed portion of a data
+     * @param $key string The key name for passed portion of a data
      * @param $val mixed The value for passed portion of a data
      * @return PrinterInterface
      */
-    public function with($key, $val): PrinterInterface;
+    public function with(string $key, $val): PrinterInterface;
 
     /**
      * Produces(outputs) a data as result of "printing" process

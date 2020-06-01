@@ -17,17 +17,11 @@ use Acc\Core\Inventory\AssetInterface;
 use LogicException;
 
 /**
- * Class hasContract
+ * Class HasContract
  * @package Acc\Core\Inventory\Asset
  */
-class hasContract implements AssetInterface
+class HasContract implements AssetInterface
 {
-    /**
-     * An object
-     * @var object
-     */
-    private string $object;
-
     /**
      * An expected classname
      * @var string $test
@@ -42,16 +36,14 @@ class hasContract implements AssetInterface
 
     /**
      * IsClass constructor.
-     * @param object $object
      * @param string $name
      * @param AssetInterface|null $asset
      */
-    public function __construct(object $object, string $name, ?AssetInterface $asset = null)
+    public function __construct(string $name, ?AssetInterface $asset = null)
     {
-        $this->object = $object;
         $this->test = $name;
         $this->orig =
-            new isObject(
+            new IsObject(
                 $asset ?? new Stub()
             );
     }
@@ -81,7 +73,7 @@ class hasContract implements AssetInterface
     public function test($val): void
     {
         $this->orig->test($val);
-        if (!($this->object instanceof $this->test)) {
+        if (!($val instanceof $this->test)) {
             throw new FailureException("the object does not implement contract=`{$this->test}`");
         }
     }

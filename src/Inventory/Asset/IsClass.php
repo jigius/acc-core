@@ -23,12 +23,6 @@ use LogicException;
 class IsClass implements AssetInterface
 {
     /**
-     * An object
-     * @var object
-     */
-    private string $object;
-
-    /**
      * An expected classname
      * @var string $test
      */
@@ -42,16 +36,15 @@ class IsClass implements AssetInterface
 
     /**
      * IsClass constructor.
-     * @param object $object
      * @param string $name
      * @param AssetInterface|null $asset
      */
-    public function __construct(object $object, string $name, ?AssetInterface $asset = null)
+    public function __construct(string $name, ?AssetInterface $asset = null)
     {
         $this->object = $object;
         $this->test = $name;
         $this->orig =
-            new isObject(
+            new IsObject(
                 $asset ?? new Stub()
             );
     }
@@ -81,7 +74,7 @@ class IsClass implements AssetInterface
     public function test($val): void
     {
         $this->orig->test($val);
-        if (is_a($this->object, $this->test)) {
+        if (is_a($val, $this->test)) {
             throw new FailureException("is not class=`{$this->test}`");
         }
     }

@@ -17,7 +17,7 @@ use Acc\Core\Inventory\AssetInterface;
 use LogicException;
 
 /**
- * Class Vanilla
+ * Class IsObject
  * @package Acc\Core\Inventory\Asset
  */
 class IsObject implements AssetInterface

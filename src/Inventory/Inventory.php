@@ -72,7 +72,7 @@ final class Inventory implements InventoryInterface
      */
     public function with(string $key, $val): PrinterInterface
     {
-        if (!$this->sealed) {
+        if ($this->sealed) {
             throw new DomainException("is sealed - mutation is prohibited");
         }
         $obj = $this->blueprinted();
@@ -91,7 +91,7 @@ final class Inventory implements InventoryInterface
      */
     public function finished(): InventoryInterface
     {
-        if (!$this->sealed) {
+        if ($this->sealed) {
             throw new DomainException("is sealed - mutation is prohibited");
         }
         if ($this->usedOnlyOnce) {

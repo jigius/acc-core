@@ -28,14 +28,25 @@ interface ValueInterface
     public function withAsset(AssetInterface $asset): ValueInterface;
 
     /**
+     * Tests an asset with the injected value of an object if it's defined
+     * @param AssetInterface $asset
+     * @return ValueInterface
+     */
+    public function withAssetIfDefined(AssetInterface $asset): ValueInterface;
+
+    /**
      * Returns an original value was injected.
-     * If an asset is defined - it will be checked at the very beginning
-     * If processor is defined - it will be used for mutation of original
-     * injected value before returned it to client
-     * @param callable $processor a processor
      * @return mixed
      */
-    public function orig(callable $processor = null);
+    public function orig();
+
+    /**
+     * Defines a callable, that will be used for processing of original
+     * injected value before returning its to client
+     * @param callable $processor
+     * @return ValueInterface
+     */
+    public function withProcessor(callable $processor): ValueInterface;
 
     /**
      * Injects an original value and return a new instance

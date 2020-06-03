@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Acc\Core\Inventory;
 
+use Acc\Core\PersistentData\VanillaRegistry;
 use Acc\Core\PrinterInterface;
 
 use DomainException, LogicException;
 
 /**
  * Class Inventory
+ * Used as an inventory for objects thouse supports contract `MediaInerface`
  * @package Acc\Core\Inventory
  */
 final class Inventory implements InventoryInterface
@@ -60,7 +62,7 @@ final class Inventory implements InventoryInterface
         ?PositionsInterface $positions = null,
         ?ValueInterface $value = null
     ) {
-        $this->positions = $positions ?? new Positions();
+        $this->positions = $positions ?? new VanillaPositions();
         $this->usedOnlyOnce = $usedOnlyOnce;
         $this->sealed = false;
         $this->prefix = "";
@@ -75,13 +77,16 @@ final class Inventory implements InventoryInterface
         if ($this->sealed) {
             throw new DomainException("is sealed - mutation is prohibited");
         }
+        if (!($val instanceof ValueInterface)) {
+            $value = $this->value->withOrig($val);
+        }
         $obj = $this->blueprinted();
         $obj->positions =
             $this
                 ->positions
                 ->with(
                     $this->prefix . $key,
-                    $this->value->withOrig($val)
+                    $value
                 );
         return $obj;
     }
@@ -91,7 +96,7 @@ final class Inventory implements InventoryInterface
      */
     public function finished(): InventoryInterface
     {
-        if ($this->sealed) {
+        if ($this->isSealed()) {
             throw new DomainException("is sealed - mutation is prohibited");
         }
         if ($this->usedOnlyOnce) {
@@ -100,6 +105,14 @@ final class Inventory implements InventoryInterface
             $obj = $this;
         }
         return $obj;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isSealed(): bool
+    {
+        return $this->sealed;
     }
 
     /**

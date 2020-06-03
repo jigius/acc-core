@@ -21,23 +21,34 @@ class Value implements ValueInterface
 {
     /**
      * An original value
-     * @var mixed|null
+     * @var ?mixed|null
      */
-    private $val;
+    private $val = null;
 
     /**
-     * A defined asset to checks an original value on
-     * @var Asset\Stub|AssetInterface
+     * An asset to checks an original value on
+     * @var ?AssetInterface
      */
-    private AssetInterface $asset;
+    private ?AssetInterface $asset = null;
+
+    /**
+     * An asset to checks an original value on if it's defined
+     * @var ?AssetInterface
+     */
+    private ?AssetInterface $dasset = null;
+
+    /**
+     * a processor that will be used for processing of original
+     * injected value before returning its to client
+     * @var ?callable|null
+     */
+    private $p = null;
 
     /**
      * Value constructor.
      */
     public function __construct()
     {
-        $this->val = null;
-        $this->asset = new Asset\Stub();
     }
 
     /**
@@ -47,6 +58,13 @@ class Value implements ValueInterface
     {
         $obj = $this->blueprinted();
         $obj->asset = $asset;
+        return $obj;
+    }
+
+    public function withAssetIfDefined(AssetInterface $asset): ValueInterface
+    {
+        $obj = $this->blueprinted();
+        $obj->dasset = $asset;
         return $obj;
     }
 
@@ -60,15 +78,30 @@ class Value implements ValueInterface
         return $obj;
     }
 
+
+    public function withProcessor(callable $processor): ValueInterface
+    {
+        $obj = $this->blueprinted();
+        $obj->p = $processor;
+        return $obj;
+    }
+
     /**
      * @inheritDoc
      */
-    public function orig(callable $processor = null)
+    public function orig()
     {
+        if ($this->asset !== null) {
+            $this->asset->test($this->val);
+        }
+        if ($this->dasset !== null && $this->val !== null) {
+            $this->dasset->test($this->val);
+        }
         $val = $this->val;
-        $this->asset->test($val);
-        if ($processor !== null) {
-            $val = call_user_func($processor, $val);
+        if ($this->p !== null) {
+            $val = call_user_func($this->p, $this->val);
+        } else {
+            $val = $this->val;
         }
         return $val;
     }
@@ -82,6 +115,8 @@ class Value implements ValueInterface
         $obj = new self();
         $obj->val = $this->val;
         $obj->asset = $this->asset;
+        $obj->dasset = $this->dasset;
+        $obj->p = $this->p;
         return $obj;
     }
 }

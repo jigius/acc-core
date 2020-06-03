@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace Acc\Core\Inventory;
 
-use LogicException;
+use Acc\Core\PrinterInterface;
+use LogicException, ArrayIterator, Iterator;
 
 /**
- * Class Positions
+ * Class VanillaPositions
  * @package Acc\Core\Inventory
  */
-class Positions implements PositionsInterface
+class VanillaPositions implements PositionsInterface
 {
     /**
      * @var array
@@ -55,7 +56,7 @@ class Positions implements PositionsInterface
     /**
      * @inheritDoc
      */
-    public function with(string $name, ValueInterface $value): PositionsInterface
+    public function with(string $name, $value): PositionsInterface
     {
        $obj = $this->blueprinted();
        $obj->data[$name] = $value;
@@ -67,18 +68,37 @@ class Positions implements PositionsInterface
      */
     public function defined(string $name): bool
     {
-        return isset($this->data[$name]);
+        return $this->fetch($name)->orig() !== null;
     }
 
     /**
      * @inheritDoc
      */
-    public function fetch(string $name, ?ValueInterface $default = null): ValueInterface
+    public function fetch(string $name, $default = null)
     {
-        if (!$this->defined($name)) {
-            return $default ?? new Value();
+        if (!isset($this->data[$name])) {
+            return $default;
         }
         return $this->data[$name];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function printed(PrinterInterface $printer)
+    {
+        foreach ($this->data as $key => $val) {
+            $printer = $printer->with($key, $val);
+        }
+        return $printer;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function iterator(): Iterator
+    {
+        return new ArrayIterator($this->data);
     }
 
     /**

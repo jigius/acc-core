@@ -26,15 +26,21 @@ interface InventoryInterface extends PrinterInterface, SerializeInterface
      * @inheritDoc
      * @param string $key
      * @param mixed $val
-     * @return PrinterInterface
+     * @return InventoryInterface
      */
-    public function with(string $key, $val): PrinterInterface;
+    public function with(string $key, $val): InventoryInterface;
 
     /**
      * @inheritDoc
      * @return InventoryInterface
      */
     public function finished(): InventoryInterface;
+
+    /**
+     * Checks if the inventory is sealed
+     * @return bool
+     */
+    public function isSealed(): bool;
 
     /**
      * Freezes an instance - protects it from aby changing in the future

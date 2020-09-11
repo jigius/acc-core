@@ -42,10 +42,10 @@ interface PositionsInterface extends SerializeInterface, MediaInterface
      * Fetches a value placed into a position is requested.
      * If there is no value into requested position - returns default value.
      * @param string $name a requested position
-     * @param mixed|null $default a default value
-     * @return mixed
+     * @param ValueInterface|null $default a default value
+     * @return ValueInterface
      */
-    public function fetch(string $name, $default = null);
+    public function fetch(string $name, ?ValueInterface $default = null): ValueInterface;
 
     /**
      * Return a set of positions as iterable object

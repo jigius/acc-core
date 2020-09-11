@@ -21,19 +21,19 @@ class Value implements ValueInterface
 {
     /**
      * An original value
-     * @var ?mixed|null
+     * @var mixed|null
      */
     private $val = null;
 
     /**
      * An asset to checks an original value on
-     * @var ?AssetInterface
+     * @var AssetInterface
      */
     private ?AssetInterface $asset = null;
 
     /**
      * An asset to checks an original value on if it's defined
-     * @var ?AssetInterface
+     * @var AssetInterface
      */
     private ?AssetInterface $dasset = null;
 
@@ -97,7 +97,6 @@ class Value implements ValueInterface
         if ($this->dasset !== null && $this->val !== null) {
             $this->dasset->test($this->val);
         }
-        $val = $this->val;
         if ($this->p !== null) {
             $val = call_user_func($this->p, $this->val);
         } else {

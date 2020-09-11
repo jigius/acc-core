@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Acc\Core\Inventory\Asset;
 
 use Acc\Core\Inventory\AssetInterface;
-use LogicException, Exception;
+use LogicException;
 
 /**
  * Class Custom
@@ -35,9 +35,10 @@ class Custom implements AssetInterface
 
     /**
      * IsClass constructor.
+     * @param callable $callee
      * @param AssetInterface|null $asset
      */
-    public function __construct(callable $calee, ?AssetInterface $asset = null)
+    public function __construct(callable $callee, ?AssetInterface $asset = null)
     {
         $this->callee = $callee;
         $this->orig = $asset ?? new Stub();

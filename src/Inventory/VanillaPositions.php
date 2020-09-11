@@ -39,7 +39,7 @@ class VanillaPositions implements PositionsInterface
      * @inheritDoc
      * @throws LogicException
      */
-    public function unserialized(array $data): PositionsInterface
+    public function unserialized(array $data): self
     {
         throw new LogicException("is not implemented yet");
     }
@@ -56,11 +56,14 @@ class VanillaPositions implements PositionsInterface
     /**
      * @inheritDoc
      */
-    public function with(string $name, $value): PositionsInterface
+    public function with(string $name, $value): self
     {
-       $obj = $this->blueprinted();
-       $obj->data[$name] = $value;
-       return $obj;
+        if (!($value instanceof ValueInterface)) {
+            $value = (new Value())->withOrig($value);
+        }
+        $obj = $this->blueprinted();
+        $obj->data[$name] = $value;
+        return $obj;
     }
 
     /**
@@ -68,16 +71,16 @@ class VanillaPositions implements PositionsInterface
      */
     public function defined(string $name): bool
     {
-        return $this->fetch($name)->orig() !== null;
+        return array_key_exists($name, $this->data);
     }
 
     /**
      * @inheritDoc
      */
-    public function fetch(string $name, $default = null)
+    public function fetch(string $name, ?ValueInterface $default = null): ValueInterface
     {
-        if (!isset($this->data[$name])) {
-            return $default;
+        if (!$this->defined($name)) {
+            return $default ?? new Value();
         }
         return $this->data[$name];
     }

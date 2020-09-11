@@ -13,14 +13,11 @@ declare(strict_types=1);
 
 namespace Acc\Core\Inventory;
 
-use Acc\Core\PersistentData\VanillaRegistry;
-use Acc\Core\PrinterInterface;
-
 use DomainException, LogicException;
 
 /**
  * Class Inventory
- * Used as an inventory for objects thouse supports contract `MediaInerface`
+ * Used as an inventory for objects those supports contract `MediaInterface`
  * @package Acc\Core\Inventory
  */
 final class Inventory implements InventoryInterface
@@ -72,13 +69,13 @@ final class Inventory implements InventoryInterface
     /**
      * @inheritDoc
      */
-    public function with(string $key, $val): PrinterInterface
+    public function with(string $key, $val): self
     {
         if ($this->sealed) {
             throw new DomainException("is sealed - mutation is prohibited");
         }
         if (!($val instanceof ValueInterface)) {
-            $value = $this->value->withOrig($val);
+            $val = $this->value->withOrig($val);
         }
         $obj = $this->blueprinted();
         $obj->positions =
@@ -86,7 +83,7 @@ final class Inventory implements InventoryInterface
                 ->positions
                 ->with(
                     $this->prefix . $key,
-                    $value
+                    $val
                 );
         return $obj;
     }
@@ -94,7 +91,7 @@ final class Inventory implements InventoryInterface
     /**
      * @inheritDoc
      */
-    public function finished(): InventoryInterface
+    public function finished(): self
     {
         if ($this->isSealed()) {
             throw new DomainException("is sealed - mutation is prohibited");
@@ -134,7 +131,7 @@ final class Inventory implements InventoryInterface
     /**
      * @inheritDoc
      */
-    public function sealed(): InventoryInterface
+    public function sealed(): self
     {
         $obj = $this->blueprinted();
         $obj->sealed = true;
@@ -144,7 +141,7 @@ final class Inventory implements InventoryInterface
     /**
      * @inheritDoc
      */
-    public function unserialized(array $data): InventoryInterface
+    public function unserialized(array $data): self
     {
         throw new LogicException("is not implemented yet");
     }
@@ -152,7 +149,7 @@ final class Inventory implements InventoryInterface
     /**
      * @inheritDoc
      */
-    public function withKeyPrefix(string $str): InventoryInterface
+    public function withKeyPrefix(string $str): self
     {
         $obj = $this->blueprinted();
         $obj->prefix = $str;

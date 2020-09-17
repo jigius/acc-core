@@ -25,12 +25,12 @@ final class Blueprint implements PrinterInterface, MediaInterface
     /**
      * @var array
      */
-    private $i;
+    private array $i;
 
     /**
-     * @var array
+     * @var array|null
      */
-    private $c;
+    private ?array $c = null;
 
     /**
      * Blueprint constructor.
@@ -41,11 +41,10 @@ final class Blueprint implements PrinterInterface, MediaInterface
     }
 
     /**
-     * @param mixed $key
-     * @param mixed $val
-     * @return PrinterInterface
+     * @inheritDoc
+     * @return self
      */
-    public function with($key, $val): PrinterInterface
+    public function with($key, $val): self
     {
         if ($this->c !== null) {
             throw new LogicException("print job is already finished");
@@ -57,9 +56,10 @@ final class Blueprint implements PrinterInterface, MediaInterface
     }
 
     /**
-     * @return PrinterInterface
+     * @inheritDoc
+     * @return self
      */
-    public function finished(): PrinterInterface
+    public function finished(): self
     {
         if (empty($this->i)) {
             throw new LogicException("print job has not been run");

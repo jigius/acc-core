@@ -11,25 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Inventory;
+namespace Acc\Core\Registry;
 
 /**
  * Interface AssetInterface
  * Defines a contract for objects those are used by an inventory object as an asset
- * @package Acc\Core\Inventory
+ * @package Acc\Core\Pea
  */
-interface AssetInterface extends SerializeInterface
+interface AssetInterface
 {
     /**
-     * Tests an assets
+     * Tests an asset
      * @param mixed $val
      */
     public function test($val): void;
-
-    /**
-     * @inheritDoc
-     * @param array $data
-     * @return AssetInterface
-     */
-    public function unserialized(array $data): AssetInterface;
 }

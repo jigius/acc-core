@@ -31,32 +31,32 @@ final class CachedIterator implements Iterator
     /**
      * @var Iterator
      */
-    private $orig;
+    private Iterator $orig;
 
     /**
      * @var array
      */
-    private $cache;
+    private array $cache;
 
     /**
      * @var int
      */
-    private $maxNum;
+    private int $maxNum;
 
     /**
      * @var int
      */
-    private $maxIndex;
+    private int $maxIndex;
 
     /**
      * @var int
      */
-    private $curIndex;
+    private int $curIndex;
 
     /**
      * @var bool
      */
-    private $detached;
+    private bool $detached;
 
     /**
      * CachedIterator constructor.

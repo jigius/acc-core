@@ -11,16 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Inventory\Asset;
+namespace Acc\Core\Registry\Vanilla\Asset;
 
-use Acc\Core\Inventory\AssetInterface;
-use LogicException;
+use Acc\Core\Registry;
 
 /**
  * Class HasContract
- * @package Acc\Core\Inventory\Asset
+ * @package Acc\Core\Pea\Vanilla\Asset
  */
-class HasContract implements AssetInterface
+class HasContract implements Registry\AssetInterface
 {
     /**
      * An expected classname
@@ -30,40 +29,19 @@ class HasContract implements AssetInterface
 
     /**
      * A decorated asset
-     * @var Stub|AssetInterface
+     * @var Registry\AssetInterface|null
      */
-    private AssetInterface $orig;
+    private ?Registry\AssetInterface $orig;
 
     /**
      * IsClass constructor.
      * @param string $name
-     * @param AssetInterface|null $asset
+     * @param Registry\AssetInterface|null $asset
      */
-    public function __construct(string $name, ?AssetInterface $asset = null)
+    public function __construct(string $name, ?Registry\AssetInterface $asset = null)
     {
         $this->test = $name;
-        $this->orig =
-            new IsObject(
-                $asset ?? new Stub()
-            );
-    }
-
-    /**
-     * @inheritDoc
-     * @throws LogicException
-     */
-    public function serialized(): array
-    {
-        throw new LogicException("is not implemented yet");
-    }
-
-    /**
-     * @inheritDoc
-     * @throws LogicException
-     */
-    public function unserialized(array $data): AssetInterface
-    {
-        throw new LogicException("is not implemented yet");
+        $this->orig = $asset;
     }
 
     /**
@@ -72,7 +50,9 @@ class HasContract implements AssetInterface
      */
     public function test($val): void
     {
-        $this->orig->test($val);
+        if ($this->orig !== null) {
+            $this->orig->test($val);
+        }
         if (!($val instanceof $this->test)) {
             throw new FailureException("the object does not implement contract=`{$this->test}`");
         }

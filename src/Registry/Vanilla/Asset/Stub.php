@@ -11,10 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Inventory\Asset;
+namespace Acc\Core\Registry\Vanilla\Asset;
 
-use DomainException;
+use Acc\Core\Registry;
 
-final class FailureException extends DomainException
+/**
+ * Class Stub
+ * @package Acc\Core\Pea\Vanilla\Asset
+ */
+class Stub implements Registry\AssetInterface
 {
+    /**
+     * @inheritDoc
+     */
+    public function test($val): void
+    {
+        // nothing to do - this is just a stub
+    }
 }

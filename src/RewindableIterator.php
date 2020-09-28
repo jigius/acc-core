@@ -17,21 +17,17 @@ use Iterator;
 use OutOfBoundsException;
 
 /**
- * Class CachedIterator
- *
- * Decorates an `Iterator` object that does not support of multiple rewinds.
- *
- * It stores all data (is received from original `Iterator` instance in one pass)
- * into cache and does later multiple rewinds over of it.
+ * Class RewindableIterator
+ * Adds an ability to rewind for not rewindable iterators
  *
  * @package Acc\Core
  */
-final class CachedIterator implements Iterator
+final class RewindableIterator implements Iterator
 {
     /**
      * @var Iterator
      */
-    private Iterator $orig;
+    private Iterator $original;
 
     /**
      * @var array
@@ -59,13 +55,13 @@ final class CachedIterator implements Iterator
     private bool $detached;
 
     /**
-     * CachedIterator constructor.
+     * RewindableIterator constructor.
      * @param Iterator $itr
      * @param int $maxNum
      */
     public function __construct(Iterator $itr, int $maxNum = 100)
     {
-        $this->orig = $itr;
+        $this->original = $itr;
         $this->maxNum = $maxNum;
         $this->cache = [];
         $this->maxIndex = -1;
@@ -108,11 +104,11 @@ final class CachedIterator implements Iterator
                 if ($ni === $this->maxNum) {
                     throw new OutOfBoundsException("limit=`{$this->maxNum}` has being exceeded");
                 }
-                $this->orig->next();
-                if ($this->orig->valid()) {
+                $this->original->next();
+                if ($this->original->valid()) {
                     $this->cache[$ni] = [
-                        $this->orig->key(),
-                        $this->orig->current()
+                        $this->original->key(),
+                        $this->original->current()
                     ];
                     $this->maxIndex = $ni;
                 } else {
@@ -131,11 +127,11 @@ final class CachedIterator implements Iterator
         $this->curIndex = 0;
         if (!$this->detached) {
             if ($this->maxIndex === -1) {
-                $this->orig->rewind();
-                if ($this->orig->valid()) {
+                $this->original->rewind();
+                if ($this->original->valid()) {
                     $this->cache[$this->curIndex] = [
-                        $this->orig->key(),
-                        $this->orig->current()
+                        $this->original->key(),
+                        $this->original->current()
                     ];
                     $this->maxIndex = $this->curIndex;
                 } else {

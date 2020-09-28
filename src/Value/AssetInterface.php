@@ -11,10 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Registry\Vanilla\Asset;
+namespace Acc\Core\Value;
 
-use DomainException;
-
-final class FailureException extends DomainException
+/**
+ * Interface AssetInterface
+ * Defines a contract for objects those are used as an asset
+ * @package Acc\Core\Value
+ */
+interface AssetInterface
 {
+    /**
+     * Tests an asset
+     * @param mixed $val
+     */
+    public function test($val): void;
 }

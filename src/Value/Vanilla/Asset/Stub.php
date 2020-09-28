@@ -11,21 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Registry\Vanilla\Asset;
+namespace Acc\Core\Value\Vanilla\Asset;
 
-use Acc\Core\Registry;
+use Acc\Core\Value;
 
 /**
  * Class Stub
- * @package Acc\Core\Pea\Vanilla\Asset
+ * @package Acc\Core\Value\Vanilla\Asset
  */
-class Stub implements Registry\AssetInterface
+class Stub implements Value\AssetInterface
 {
     /**
      * @inheritDoc
      */
     public function test($val): void
     {
-        // nothing to do - this is just a stub
+        /*
+         * No check actually. This is just a stub.
+         *
+         */
     }
 }

@@ -17,7 +17,7 @@ use Acc\Core\Registry;
 use ArrayIterator, Iterator;
 
 /**
- * Class Pea
+ * Class Pod
  * @package Acc\Core\Pea\Vanilla
  */
 final class Pod implements Registry\BeansInterface
@@ -25,25 +25,41 @@ final class Pod implements Registry\BeansInterface
     /**
      * @var array
      */
-    private array $data;
+    private array $beans;
+    /**
+     * @var Registry\BeanInterface|null
+     */
+    private ?Registry\BeanInterface $bean;
 
     /**
      * Pea constructor.
+     * @param Registry\BeanInterface|null $bean
      */
-    public function __construct()
+    public function __construct(?Registry\BeanInterface $bean = null)
     {
-        $this->data = [];
+        $this->beans = [];
+        $this->bean = $bean;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function created(): Registry\BeanInterface
+    {
+        return $this->bean ?? new Pea();
     }
 
     /**
      * @inheritDoc
      * @return self
      */
-    public function pushed(string $key, Registry\BeanInterface $p): self
+    public function pushed(string $key, $bean): self
     {
        $obj = $this->blueprinted();
-       $obj->data = $this->data;
-       $obj->data[$key] = $p;
+       if (!($bean instanceof Registry\BeanInterface)) {
+           $bean = ($this->bean ?? new Pea())->withValue($bean);
+       }
+       $obj->beans[$key] = $bean;
        return $obj;
     }
 
@@ -53,7 +69,7 @@ final class Pod implements Registry\BeansInterface
      */
     public function pulled(string $key): Registry\BeanInterface
     {
-        return $this->data[$key];
+        return $this->beans[$key];
     }
 
     /**
@@ -61,7 +77,7 @@ final class Pod implements Registry\BeansInterface
      */
     public function defined(string $key): bool
     {
-        return isset($this->data[$key]);
+        return isset($this->beans[$key]);
     }
 
     /**
@@ -69,7 +85,7 @@ final class Pod implements Registry\BeansInterface
      */
     public function iterator(): Iterator
     {
-        return new ArrayIterator($this->data);
+        return new ArrayIterator($this->beans);
     }
 
     /**
@@ -78,8 +94,8 @@ final class Pod implements Registry\BeansInterface
      */
     private function blueprinted(): self
     {
-        $obj = new self();
-        $obj->data = $this->data;
+        $obj = new self($this->bean);
+        $obj->beans = $this->beans;
         return $obj;
     }
 }

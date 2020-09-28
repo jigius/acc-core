@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Registry;
+namespace Acc\Core\Value;
 
 /**
  * Interface ValueInterface
  * Defines a base contract for Value objects
- * @package Acc\Core\Pea
+ * @package Acc\Core\Value
  */
 interface ValueInterface
 {
@@ -28,8 +28,14 @@ interface ValueInterface
     public function assign($val): ValueInterface;
 
     /**
-     * Checks if the instance has defined value
+     * Checks if the instance has defined value or not
      * @return bool
      */
     public function defined(): bool;
+
+    /**
+     * Returns passed value
+     * @return mixed
+     */
+    public function fetch();
 }

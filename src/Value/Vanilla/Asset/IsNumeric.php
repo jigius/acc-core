@@ -11,42 +11,43 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Registry\Vanilla\Asset;
+namespace Acc\Core\Value\Vanilla\Asset;
 
-use Acc\Core\Registry;
+use Acc\Core\Value;
+use Acc\Core\Value\Vanilla\FailedException;
 
 /**
- * Class IsResource
- * @package Acc\Core\Pea\Vanilla\Asset
+ * Class IsNumeric
+ * @package Acc\Core\Value\Vanilla\Asset
  */
-class IsResource implements Registry\AssetInterface
+class IsNumeric implements Value\AssetInterface
 {
     /**
      * A decorated asset
-     * @var Registry\AssetInterface|null
+     * @var Value\AssetInterface|null
      */
-    private ?Registry\AssetInterface $orig;
+    private ?Value\AssetInterface $orig;
 
     /**
-     * IsObject constructor.
-     * @param Registry\AssetInterface|null $asset
+     * IsClass constructor.
+     * @param Value\AssetInterface|null $asset
      */
-    public function __construct(?Registry\AssetInterface $asset = null)
+    public function __construct(?Value\AssetInterface $asset = null)
     {
         $this->orig = $asset;
     }
 
     /**
      * @inheritDoc
-     * @throws FailureException
+     * @throws FailedException
      */
     public function test($val): void
     {
         if ($this->orig !== null) {
             $this->orig->test($val);
         }
-        if (!is_resource($val)) {
-            throw new FailureException("is not resource");
+        if (!is_numeric($val)) {
+            throw new FailedException("is not numeric");
         }
     }
 }

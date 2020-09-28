@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Acc\Core\Registry\Vanilla;
 
 use Acc\Core\Registry;
+use Acc\Core\Value\ValueInterface;
 use LogicException;
 
 /**
@@ -37,7 +38,7 @@ final class SealedPea implements Registry\BeanInterface
     /**
      * @inheritDoc
      */
-    public function value(): Registry\ValueInterface
+    public function value(): ValueInterface
     {
         return $this->original->value();
     }

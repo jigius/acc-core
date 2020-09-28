@@ -11,18 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Registry;
+namespace Acc\Core;
 
 /**
- * Interface AssetInterface
- * Defines a contract for objects those are used by an inventory object as an asset
- * @package Acc\Core\Pea
+ * Interface ResultInterface
+ * The contract is used by `Task` contract for expressions of  its result
+ * @package Acc\Core
  */
-interface AssetInterface
+interface ResultInterface extends MediaInterface, PrinterInterface
 {
-    /**
-     * Tests an asset
-     * @param mixed $val
-     */
-    public function test($val): void;
 }

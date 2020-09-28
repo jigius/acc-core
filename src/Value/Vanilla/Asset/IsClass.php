@@ -11,15 +11,16 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Registry\Vanilla\Asset;
+namespace Acc\Core\Value\Vanilla\Asset;
 
-use Acc\Core\Registry;
+use Acc\Core\Value;
+use Acc\Core\Value\Vanilla\FailedException;
 
 /**
  * Class IsClass
- * @package Acc\Core\Pea\Vanilla\Asset
+ * @package Acc\Core\Value\Vanilla\Asset
  */
-class IsClass implements Registry\AssetInterface
+class IsClass implements Value\AssetInterface
 {
     /**
      * An expected classname
@@ -29,16 +30,16 @@ class IsClass implements Registry\AssetInterface
 
     /**
      * A decorated asset
-     * @var Registry\AssetInterface|null
+     * @var Value\AssetInterface|null
      */
-    private ?Registry\AssetInterface $orig;
+    private ?Value\AssetInterface $orig;
 
     /**
      * IsClass constructor.
      * @param string $name
-     * @param Registry\AssetInterface|null $asset
+     * @param Value\AssetInterface|null $asset
      */
-    public function __construct(string $name, ?Registry\AssetInterface $asset = null)
+    public function __construct(string $name, ?Value\AssetInterface $asset = null)
     {
         $this->test = $name;
         $this->orig = $asset;
@@ -46,7 +47,7 @@ class IsClass implements Registry\AssetInterface
 
     /**
      * @inheritDoc
-     * @throws FailureException
+     * @throws FailedException
      */
     public function test($val): void
     {
@@ -54,7 +55,7 @@ class IsClass implements Registry\AssetInterface
             $this->orig->test($val);
         }
         if (is_a($val, $this->test)) {
-            throw new FailureException("is not class=`{$this->test}`");
+            throw new FailedException("is not class=`{$this->test}`");
         }
     }
 }

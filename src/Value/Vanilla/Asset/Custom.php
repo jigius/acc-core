@@ -11,36 +11,35 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Registry\Vanilla\Asset;
+namespace Acc\Core\Value\Vanilla\Asset;
 
-use Acc\Core\Registry;
+use Acc\Core\Value;
 
 /**
- * Class HasContract
- * @package Acc\Core\Pea\Vanilla\Asset
+ * Class Custom
+ * @package Acc\Core\Value\Vanilla\Asset
  */
-class HasContract implements Registry\AssetInterface
+class Custom implements Value\AssetInterface
 {
     /**
-     * An expected classname
-     * @var string $test
+     * @var callable
      */
-    private string $test;
+    private $closure;
 
     /**
      * A decorated asset
-     * @var Registry\AssetInterface|null
+     * @var Value\AssetInterface|null
      */
-    private ?Registry\AssetInterface $orig;
+    private ?Value\AssetInterface $orig;
 
     /**
      * IsClass constructor.
-     * @param string $name
-     * @param Registry\AssetInterface|null $asset
+     * @param callable $closure
+     * @param Value\AssetInterface|null $asset
      */
-    public function __construct(string $name, ?Registry\AssetInterface $asset = null)
+    public function __construct(callable $closure, ?Value\AssetInterface $asset = null)
     {
-        $this->test = $name;
+        $this->closure = $closure;
         $this->orig = $asset;
     }
 
@@ -53,8 +52,6 @@ class HasContract implements Registry\AssetInterface
         if ($this->orig !== null) {
             $this->orig->test($val);
         }
-        if (!($val instanceof $this->test)) {
-            throw new FailureException("the object does not implement contract=`{$this->test}`");
-        }
+        call_user_func($this->closure, $val);
     }
 }

@@ -30,12 +30,12 @@ interface BeansInterface
     public function defined(string $key): bool;
 
     /**
-     * Stores a position with specified key and return a new instance of BeansInterface
+     * Stores a bean with specified key and return a new instance of BeansInterface
      * @param string $key a key
-     * @param BeanInterface $p a position
+     * @param mixed $bean a bean
      * @return BeansInterface
      */
-    public function pushed(string $key, BeanInterface $p): BeansInterface;
+    public function pushed(string $key, $bean): BeansInterface;
 
     /**
      * Pulls a position with specified key.
@@ -43,6 +43,12 @@ interface BeansInterface
      * @return BeanInterface
      */
     public function pulled(string $key): BeanInterface;
+
+    /**
+     * Creates a new bean
+     * @return BeanInterface
+     */
+    public function created(): BeanInterface;
 
     /**
      * Return defined set of positions as iterable object

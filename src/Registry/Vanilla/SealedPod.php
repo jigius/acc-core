@@ -37,7 +37,7 @@ final class SealedPod implements Registry\BeansInterface
     /**
      * @inheritDoc
      */
-    public function pushed(string $key, Registry\BeanInterface $p): Registry\BeansInterface
+    public function pushed(string $key, Registry\BeanInterface $bean): Registry\BeansInterface
     {
         if (!$this->defined($key)) {
             throw new LogicException(
@@ -45,7 +45,7 @@ final class SealedPod implements Registry\BeansInterface
             );
         }
         $obj = $this->blueprint();
-        $obj->original = $this->original->pushed($key, $p);
+        $obj->original = $this->original->pushed($key, $bean);
         return $obj;
     }
 
@@ -55,6 +55,14 @@ final class SealedPod implements Registry\BeansInterface
     public function pulled(string $key): Registry\BeanInterface
     {
         return $this->original->pulled($key);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function created(): Registry\BeanInterface
+    {
+        return $this->original->created();
     }
 
     /**

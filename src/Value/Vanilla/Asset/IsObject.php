@@ -11,42 +11,43 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Registry\Vanilla\Asset;
+namespace Acc\Core\Value\Vanilla\Asset;
 
-use Acc\Core\Registry;
+use Acc\Core\Value;
+use Acc\Core\Value\Vanilla\FailedException;
 
 /**
- * Class IsNotEmpty
- * @package Acc\Core\Pea\Vanilla\Asset
+ * Class IsObject
+ * @package Acc\Core\Value\Vanilla\Asset
  */
-class IsNotEmpty implements Registry\AssetInterface
+class IsObject implements Value\AssetInterface
 {
     /**
      * A decorated asset
-     * @var Registry\AssetInterface|null
+     * @var Value\AssetInterface|null
      */
-    private ?Registry\AssetInterface $orig;
+    private ?Value\AssetInterface $orig;
 
     /**
-     * IsClass constructor.
-     * @param Registry\AssetInterface|null $asset
+     * IsObject constructor.
+     * @param Value\AssetInterface|null $asset
      */
-    public function __construct(?Registry\AssetInterface $asset = null)
+    public function __construct(?Value\AssetInterface $asset = null)
     {
         $this->orig = $asset;
     }
 
     /**
      * @inheritDoc
-     * @throws FailureException
+     * @throws FailedException
      */
     public function test($val): void
     {
         if ($this->orig !== null) {
             $this->orig->test($val);
         }
-        if (empty($val)) {
-            throw new FailureException("is empty");
+        if (!is_object($val)) {
+            throw new FailedException("is not object");
         }
     }
 }

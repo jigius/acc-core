@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Acc\Core\Registry\Vanilla;
 
 use Acc\Core\Registry;
+use Acc\Core\Value\ValueInterface;
+use Acc\Core\Value\Vanilla\Value;
+use LogicException;
 
 /**
  * Class Pea
@@ -23,16 +26,16 @@ final class Pea implements Registry\BeanInterface
 {
     /**
      * An assigned value
-     * @var Registry\ValueInterface|null
+     * @var ValueInterface|null
      */
-    private ?Registry\ValueInterface $val;
+    private ?ValueInterface $val;
 
     /**
      * @var array
      */
     private array $p;
 
-    public function __construct(Registry\ValueInterface $initialValue = null)
+    public function __construct(ValueInterface $initialValue = null)
     {
         $this->val = $initialValue;
         $this->p = [];
@@ -40,14 +43,18 @@ final class Pea implements Registry\BeanInterface
 
     /**
      * @inheritDoc
+     * @throws LogicException
      */
-    public function value(): Registry\ValueInterface
+    public function value(): ValueInterface
     {
-        $val = $this->val ?? new UndefinedValue();
+        $val = $this->val ?? new Value();
         array_walk(
             $this->p,
-            function (callable $proc, int $idx) use (&$val): void {
-                $val = call_user_func($proc, $val, $idx);
+            function (callable $proc) use (&$val): void {
+                $val = call_user_func($proc, $val);
+                if (!($val instanceof ValueInterface)) {
+                    throw new LogicException("invalid type");
+                }
             }
         );
         return $val;
@@ -59,8 +66,8 @@ final class Pea implements Registry\BeanInterface
     public function withValue($v): self
     {
         $obj = $this->blueprinted();
-        if (!($v instanceof Registry\DefinedValueInterface)) {
-            $v = (new DefinedValue())->assign($v);
+        if (!($v instanceof ValueInterface)) {
+            $v = (new Value())->assign($v);
         }
         $obj->val = $v;
         return $obj;

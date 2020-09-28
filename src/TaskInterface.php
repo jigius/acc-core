@@ -15,14 +15,19 @@ namespace Acc\Core;
 
 /**
  * Interface TaskInterface
- * Adds capability to an instance  be executed
+ * Adds capability to an instance to be executed in form of a configured task
  * @package Acc\Core
  */
-interface TaskInterface
+interface TaskInterface extends SerializableInterface
 {
     /**
-     * Executes and returns some result
-     * @return mixed
+     * Executes a task
+     * @return ResultInterface
      */
-    public function executed();
+    public function executed(): ResultInterface;
+
+    /**
+     * @inheritDoc
+     */
+    public function unserialized(string $input): TaskInterface;
 }

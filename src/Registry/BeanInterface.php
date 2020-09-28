@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Acc\Core\Registry;
 
+use Acc\Core\Value\ValueInterface;
+
 /**
  * Interface BeanInterface
  * Defines a contract for objects those are used by an positions object as a position

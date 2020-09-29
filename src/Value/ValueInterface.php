@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Acc\Core\Value;
 
+use LogicException;
+
 /**
  * Interface ValueInterface
  * Defines a base contract for Value objects
@@ -38,4 +40,11 @@ interface ValueInterface
      * @return mixed
      */
     public function fetch();
+
+    /**
+     * Returns a type of defined value or throws exception
+     * @return string
+     * @throws LogicException
+     */
+    public function type(): string;
 }

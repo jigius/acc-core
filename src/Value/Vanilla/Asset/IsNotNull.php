@@ -47,7 +47,7 @@ final class IsNotNull implements Value\AssetInterface
             $this->orig->test($val);
         }
         if ($val === null) {
-            throw new FailedException("is not defined");
+            throw new FailedException("NULL is not allowed");
         }
     }
 }

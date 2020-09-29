@@ -69,6 +69,17 @@ final class Value implements ValueInterface
     /**
      * @inheritDoc
      */
+    public function type(): string
+    {
+        if (!$this->defined()) {
+            throw new LogicException("Value is undefined yet", -100);
+        }
+        return gettype($this->val);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function defined(): bool
     {
         return $this->defined;

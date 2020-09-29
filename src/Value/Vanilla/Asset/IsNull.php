@@ -47,7 +47,7 @@ final class IsNull implements Value\AssetInterface
             $this->orig->test($val);
         }
         if ($val !== null) {
-            throw new FailedException("is defined");
+            throw new FailedException("expecting NULL");
         }
     }
 }

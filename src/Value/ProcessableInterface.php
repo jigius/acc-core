@@ -17,7 +17,7 @@ namespace Acc\Core\Value;
  * Interface ProcessableInterface
  * @package Acc\Core\Value
  */
-interface ProcessableInterface
+interface ProcessableInterface extends ValueInterface
 {
     /**
      * Appends a callable, that will be used as a preprocessor of an assigned value in a time of fetching of its
@@ -25,4 +25,10 @@ interface ProcessableInterface
      * @return ProcessableInterface
      */
     public function withProcessor(callable $processor): ProcessableInterface;
+
+    /**
+     * Returns passed value processed with a processor (if defined)
+     * @return mixed
+     */
+    public function fetch();
 }

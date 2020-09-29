@@ -13,47 +13,29 @@ declare(strict_types=1);
 
 namespace Acc\Core\Value\Vanilla;
 
-use Acc\Core\Value\AssetInterface;
-use Acc\Core\Value\ConstraintInterface;
 use Acc\Core\Value\ValueInterface;
+use LogicException;
 
 /**
- * Wrap class WithConstraint
- * Adds the ability to check added constraints before returning of an original value (method fetch())
+ * Wrap class SealedValue
+ * Makes impossible to redefine an already defined original value
  * @package Acc\Core\Value\Vanilla
  */
-final class WithConstraint implements ConstraintInterface, ValueInterface
+final class SealedValue implements ValueInterface
 {
     /**
      * An original value
-     * @var ValueInterface
+     * @var mixed|null
      */
-    private ValueInterface $original;
+    private $original;
 
     /**
-     * assets that are used for testing of a value
-     * @var array
+     * SealedValue constructor.
+     * @param ValueInterface $v
      */
-    private array $a;
-
-    /**
-     * Value constructor.
-     * @param ValueInterface $val
-     */
-    public function __construct(ValueInterface $val)
+    public function __construct(ValueInterface $v)
     {
-        $this->original = $val;
-        $this->a = [];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withAsset(AssetInterface $asset): self
-    {
-        $obj = $this->blueprinted();
-        $obj->a[] = $asset;
-        return $obj;
+        $this->original = $v;
     }
 
     /**
@@ -61,6 +43,12 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
      */
     public function assign($val): self
     {
+        if ($this->original->defined()) {
+            throw
+                new LogicException(
+                    "The value has been sealed because its value has already defined"
+                );
+        }
         $obj = $this->blueprinted();
         $obj->original = $this->original->assign($val);
         return $obj;
@@ -68,17 +56,11 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
 
     /**
      * @inheritDoc
+     * @throws LogicException Throws an exception if value is undefined
      */
     public function fetch()
     {
-        $val = $this->original->fetch();
-        array_walk(
-            $this->a,
-            function ($asset) use ($val) {
-                $asset->test($val);
-            }
-        );
-        return $val;
+        return $this->original->fetch();
     }
 
     /**
@@ -103,8 +85,6 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
      */
     private function blueprinted(): self
     {
-        $obj = new self($this->original);
-        $obj->a = $this->a;
-        return $obj;
+        return new self($this->original);
     }
 }

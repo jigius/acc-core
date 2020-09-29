@@ -14,55 +14,48 @@ declare(strict_types=1);
 namespace Acc\Core\Registry\Vanilla;
 
 use Acc\Core\Registry;
+use Acc\Core\Value\ValueInterface;
 use Iterator;
 use LogicException;
 
 /**
- * Wrap class SealedPod
- * The purpose is to prohibit the including of new peas into original pod.
- * @property Registry\BeansInterface original
+ * Wrap class SealedRegistry
+ * The purpose is to prohibit extending an original registry with new values.
+ * @property Registry\RegistryInterface original
  * @package Acc\Core\Pea\Vanilla
  */
-final class SealedPod implements Registry\BeansInterface
+final class SealedRegistry implements Registry\RegistryInterface
 {
     /**
-     * FrozenPod constructor.
-     * @param Registry\BeansInterface $pod
+     * SealedRegistry constructor.
+     * @param Registry\RegistryInterface $registry
      */
-    public function __construct(Registry\BeansInterface $pod)
+    public function __construct(Registry\RegistryInterface $registry)
     {
-        $this->original = $pod;
+        $this->original = $registry;
     }
 
     /**
      * @inheritDoc
      */
-    public function pushed(string $key, Registry\BeanInterface $bean): Registry\BeansInterface
+    public function pushed(string $key, $val): Registry\RegistryInterface
     {
         if (!$this->defined($key)) {
             throw new LogicException(
-                "the pod has been sealed so additional pea with key=`{$key}` has not being included"
+                "the registry has been sealed so additional value with key=`{$key}` has not being included"
             );
         }
         $obj = $this->blueprint();
-        $obj->original = $this->original->pushed($key, $bean);
+        $obj->original = $this->original->pushed($key, $val);
         return $obj;
     }
 
     /**
      * @inheritDoc
      */
-    public function pulled(string $key): Registry\BeanInterface
+    public function pulled(string $key): ValueInterface
     {
         return $this->original->pulled($key);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function created(): Registry\BeanInterface
-    {
-        return $this->original->created();
     }
 
     /**

@@ -19,7 +19,7 @@ use Acc\Core\Value;
  * Class Stub
  * @package Acc\Core\Value\Vanilla\Asset
  */
-class Stub implements Value\AssetInterface
+final class Stub implements Value\AssetInterface
 {
     /**
      * @inheritDoc

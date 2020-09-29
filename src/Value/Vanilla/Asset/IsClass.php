@@ -20,7 +20,7 @@ use Acc\Core\Value\Vanilla\FailedException;
  * Class IsClass
  * @package Acc\Core\Value\Vanilla\Asset
  */
-class IsClass implements Value\AssetInterface
+final class IsClass implements Value\AssetInterface
 {
     /**
      * An expected classname

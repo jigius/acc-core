@@ -20,7 +20,7 @@ use Acc\Core\Value\Vanilla\FailedException;
  * Class IsNotNull
  * @package Acc\Core\Value\Vanilla\Asset
  */
-class IsNotNull implements Value\AssetInterface
+final class IsNotNull implements Value\AssetInterface
 {
     /**
      * A decorated asset

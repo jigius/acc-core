@@ -20,7 +20,7 @@ use Acc\Core\Value\Vanilla\FailedException;
  * Class IsArray
  * @package Acc\Core\Value\Vanilla\Asset
  */
-class IsArray implements Value\AssetInterface
+final class IsArray implements Value\AssetInterface
 {
     /**
      * A decorated asset

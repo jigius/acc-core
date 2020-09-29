@@ -20,7 +20,7 @@ use Acc\Core\Value\Vanilla\FailedException;
  * Class IsCallable
  * @package Acc\Core\Value\Vanilla\Asset
  */
-class IsCallable implements Value\AssetInterface
+final class IsCallable implements Value\AssetInterface
 {
     /**
      * A decorated asset

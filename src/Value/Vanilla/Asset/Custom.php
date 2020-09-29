@@ -19,7 +19,7 @@ use Acc\Core\Value;
  * Class Custom
  * @package Acc\Core\Value\Vanilla\Asset
  */
-class Custom implements Value\AssetInterface
+final class Custom implements Value\AssetInterface
 {
     /**
      * @var callable

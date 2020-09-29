@@ -20,7 +20,7 @@ use Acc\Core\Value\Vanilla\FailedException;
  * Class HasContract
  * @package Acc\Core\Value\Vanilla\Asset
  */
-class HasContract implements Value\AssetInterface
+final class HasContract implements Value\AssetInterface
 {
     /**
      * An expected classname

@@ -20,7 +20,7 @@ use Acc\Core\Value\Vanilla\FailedException;
  * Class IsIterable
  * @package Acc\Core\Value\Vanilla\Asset
  */
-class IsIterable implements Value\AssetInterface
+final class IsIterable implements Value\AssetInterface
 {
     /**
      * A decorated asset

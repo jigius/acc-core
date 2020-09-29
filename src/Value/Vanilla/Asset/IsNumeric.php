@@ -20,7 +20,7 @@ use Acc\Core\Value\Vanilla\FailedException;
  * Class IsNumeric
  * @package Acc\Core\Value\Vanilla\Asset
  */
-class IsNumeric implements Value\AssetInterface
+final class IsNumeric implements Value\AssetInterface
 {
     /**
      * A decorated asset

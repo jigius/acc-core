@@ -15,7 +15,7 @@ namespace Acc\Core;
 
 /**
  * Interface ResultInterface
- * The contract is used by `Task` contract for expressions of  its result
+ * The contract is used for expression some result of a processing
  * @package Acc\Core
  */
 interface ResultInterface extends MediaInterface, PrinterInterface

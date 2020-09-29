@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Acc\Core;
 
-use Acc\Core\Registry\BeansInterface;
+use Acc\Core\Registry\RegistryInterface;
 
 /**
  * Interface AttributableInterface
@@ -32,7 +32,7 @@ interface AttributableInterface
 
     /**
      * Returns all assigned attributes in form of a bunch of beans
-     * @return BeansInterface
+     * @return RegistryInterface
      */
-    public function attrs(): BeansInterface;
+    public function attrs(): RegistryInterface;
 }

@@ -18,6 +18,6 @@ namespace Acc\Core;
  * The contract is used for expression some result of a processing
  * @package Acc\Core
  */
-interface ResultInterface extends MediaInterface, PrinterInterface
+interface ResultInterface extends MediaInterface
 {
 }

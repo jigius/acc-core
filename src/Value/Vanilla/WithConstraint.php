@@ -32,9 +32,9 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
 
     /**
      * assets that are used for testing of a value
-     * @var array
+     * @var AssetInterface|null
      */
-    private array $a;
+    private ?AssetInterface $a;
 
     /**
      * Value constructor.
@@ -43,7 +43,7 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     public function __construct(ValueInterface $val)
     {
         $this->original = $val;
-        $this->a = [];
+        $this->a = null;
     }
 
     /**
@@ -52,7 +52,7 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     public function withAsset(AssetInterface $asset): self
     {
         $obj = $this->blueprinted();
-        $obj->a[] = $asset;
+        $obj->a = $asset;
         return $obj;
     }
 
@@ -72,12 +72,7 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     public function fetch()
     {
         $val = $this->original->fetch();
-        array_walk(
-            $this->a,
-            function ($asset) use ($val) {
-                $asset->test($val);
-            }
-        );
+        $this->asset->test($val);
         return $val;
     }
 

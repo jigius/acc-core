@@ -70,11 +70,7 @@ final class WithProcessor implements ProcessableInterface
      */
     public function fetch()
     {
-        $val = $this->original;
-        if ($this->p !== null) {
-            $val = call_user_func($this->p, $val);
-        }
-        return $val->fetch();
+        return $this->processedOriginalValue()->fetch();
     }
 
     /**
@@ -82,7 +78,7 @@ final class WithProcessor implements ProcessableInterface
      */
     public function defined(): bool
     {
-        return $this->original->defined();
+        return $this->processedOriginalValue()->defined();
     }
 
     /**
@@ -90,7 +86,7 @@ final class WithProcessor implements ProcessableInterface
      */
     public function type(): string
     {
-        return $this->original->type();
+        return $this->processedOriginalValue()->type();
     }
 
     /**
@@ -102,5 +98,17 @@ final class WithProcessor implements ProcessableInterface
         $obj = new self($this->original);
         $obj->p = $this->p;
         return $obj;
+    }
+
+    /**
+     * Processes an original value and return a new one
+     * @return ValueInterface
+     */
+    private function processedOriginalValue(): ValueInterface
+    {
+        if ($this->p === null) {
+            throw new \LogicException("a processor is not defined yet");
+        }
+        return call_user_func($this->p, $this->original);
     }
 }

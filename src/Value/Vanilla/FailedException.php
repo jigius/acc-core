@@ -22,16 +22,16 @@ use Throwable;
 final class FailedException extends DomainException implements FailedExceptionInterface
 {
     /**
-     * @var ValueInterface|null
+     * @var mixed|null
      */
-    private ?ValueInterface $value = null;
+    private $value = null;
 
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
 
-    public function withValue(ValueInterface $v): self
+    public function withValue($v): self
     {
         $obj = $this->blueprinted();
         $obj->value = $v;

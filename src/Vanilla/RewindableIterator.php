@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core;
+namespace Acc\Core\Vanilla;
 
 use Iterator;
 use OutOfBoundsException;
@@ -19,36 +19,32 @@ use OutOfBoundsException;
 /**
  * Class RewindableIterator
  * Adds an ability to rewind for not rewindable iterators
- *
- * @package Acc\Core
+ * @package Acc\Core\Vanilla
  */
 final class RewindableIterator implements Iterator
 {
     /**
+     * An original notrewindable iterator
      * @var Iterator
      */
     private Iterator $original;
-
     /**
+     * Cached values being gotten from an original iterator
      * @var array
      */
-    private array $cache;
-
+    private array $cached;
     /**
      * @var int
      */
     private int $maxNum;
-
     /**
      * @var int
      */
     private int $maxIndex;
-
     /**
      * @var int
      */
     private int $curIndex;
-
     /**
      * @var bool
      */
@@ -70,7 +66,7 @@ final class RewindableIterator implements Iterator
     }
 
     /**
-     * @return mixed|null
+     * @return mixed
      */
     public function current()
     {
@@ -124,14 +120,15 @@ final class RewindableIterator implements Iterator
      */
     public function rewind()
     {
+        $o = $this->original;
         $this->curIndex = 0;
         if (!$this->detached) {
             if ($this->maxIndex === -1) {
-                $this->original->rewind();
-                if ($this->original->valid()) {
+                $o->rewind();
+                if ($o->valid()) {
                     $this->cache[$this->curIndex] = [
-                        $this->original->key(),
-                        $this->original->current()
+                        $o->key(),
+                        $o->current()
                     ];
                     $this->maxIndex = $this->curIndex;
                 } else {

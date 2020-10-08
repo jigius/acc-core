@@ -10,14 +10,16 @@
  */
 declare(strict_types=1);
 
-namespace Acc\Core;
+namespace Acc\Core\Vanilla;
 
+use Acc\Core\MediaInterface;
+use Acc\Core\PrinterInterface;
 use Iterator, LogicException;
 
 /**
  * Class ProcessedIterator
  * Adds an ability to process data via a defined printer object
- * @package Acc\Core
+ * @package Acc\Core\Vanilla
  */
 final class ProcessedIterator implements Iterator
 {

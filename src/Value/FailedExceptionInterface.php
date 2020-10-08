@@ -18,8 +18,8 @@ interface FailedExceptionInterface extends MediaInterface
 {
     /**
      * Stores a value that is a subject of an exception
-     * @param ValueInterface $v A value
+     * @param mixed $v A value
      * @return FailedExceptionInterface
      */
-    public function withValue(ValueInterface $v): FailedExceptionInterface;
+    public function withValue($v): FailedExceptionInterface;
 }

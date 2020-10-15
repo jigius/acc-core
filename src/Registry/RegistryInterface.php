@@ -31,7 +31,7 @@ interface RegistryInterface
     public function defined(string $key): bool;
 
     /**
-     * Stores a value with specified key
+     * Добавляет новое или заменяет существующее значение новым
      * @param string $key a key
      * @param mixed $value a value
      * @return RegistryInterface
@@ -39,11 +39,20 @@ interface RegistryInterface
     public function pushed(string $key, $value): RegistryInterface;
 
     /**
+     * Updates an existing value with a new one
+     * @param string $key a key
+     * @param mixed $value a value
+     * @return RegistryInterface
+     */
+    public function updated(string $key, $value): RegistryInterface;
+
+    /**
      * Pulls a value with specified key.
      * @param string $key a requested position
+     * @param mixed $default a value that is returning if a value with a requested position is not exists
      * @return ValueInterface
      */
-    public function pulled(string $key): ValueInterface;
+    public function pulled(string $key, $default = null): ValueInterface;
 
     /**
      * Return defined set of values as iterable object

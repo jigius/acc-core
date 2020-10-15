@@ -53,9 +53,24 @@ final class SealedRegistry implements Registry\RegistryInterface
     /**
      * @inheritDoc
      */
-    public function pulled(string $key): ValueInterface
+    public function updated(string $key, $val): Registry\RegistryInterface
     {
-        return $this->original->pulled($key);
+        if (!$this->defined($key)) {
+            throw new LogicException(
+                "the registry has been sealed so additional value with key=`{$key}` has not being included"
+            );
+        }
+        $obj = $this->blueprint();
+        $obj->original = $this->original->updated($key, $val);
+        return $obj;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function pulled(string $key, $default = null): ValueInterface
+    {
+        return $this->original->pulled($key, $default);
     }
 
     /**

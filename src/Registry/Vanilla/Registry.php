@@ -61,9 +61,34 @@ final class Registry implements RegistryInterface
      * @inheritDoc
      * @return self
      */
-    public function pulled(string $key): ValueInterface
+    public function updated(string $key, $val): self
     {
-        return $this->vals[$key];
+        if (!$this->defined($key)) {
+            $obj = $this->pushed($key, $val);
+        } else {
+            $obj = $this->blueprinted();
+            $obj->vals[$key] = $this->pulled($key)->assign($val);
+        }
+        return $obj;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function pulled(string $key, $default = null): ValueInterface
+    {
+        if (!$this->defined($key)) {
+            if ($default === null) {
+                $ret = $this->bp ?? new Value();
+            } else {
+                if (!($default instanceof ValueInterface)) {
+                    $ret = ($this->bp ?? new Value())->assign($default);
+                }
+            }
+        } else {
+            $ret = $this->vals[$key];
+        }
+        return $ret;
     }
 
     /**
@@ -84,7 +109,7 @@ final class Registry implements RegistryInterface
 
     /**
      * Clones the instance
-     * @return $this
+     * @return self
      */
     private function blueprinted(): self
     {

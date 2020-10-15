@@ -21,10 +21,9 @@ namespace Acc\Core;
 interface TaskInterface extends SerializableInterface
 {
     /**
-     * @param ResultInterface|null $r
      * @return ResultInterface
      */
-    public function executed(?ResultInterface $r = null): ResultInterface;
+    public function executed(): ResultInterface;
 
     /**
      * @inheritDoc

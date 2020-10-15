@@ -87,6 +87,8 @@ final class ProcessedIterator implements Iterator
             if (is_object($i)) {
                 $i = get_object_vars($i);
             }
+
+
             $p = $this->p;
             foreach ($i as $key => $val) {
                 $p = $p->with($key, $val);

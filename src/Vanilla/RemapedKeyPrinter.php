@@ -18,6 +18,7 @@ use Acc\Core\PrinterInterface;
 /**
  * Class RemapedKeyPrinter
  * Remaps keys of values for an original printer
+ *
  * @package Acc\Core\Vanilla
  */
 final class RemapedKeyPrinter implements PrinterInterface
@@ -63,10 +64,6 @@ final class RemapedKeyPrinter implements PrinterInterface
         return $this->original->finished();
     }
 
-    /**
-     * Clones the instance
-     * @return $this
-     */
     private function blueprinted(): self
     {
         return new self($this->original, $this->m);

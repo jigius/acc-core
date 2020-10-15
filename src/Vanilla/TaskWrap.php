@@ -40,9 +40,9 @@ abstract class TaskWrap implements TaskInterface
     /**
      * @inheritDoc
      */
-    public function executed(?ResultInterface $r = null): ResultInterface
+    public function executed(): ResultInterface
     {
-        return $this->original->executed($r);
+        return $this->original->executed();
     }
 
     /**

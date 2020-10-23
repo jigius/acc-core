@@ -55,7 +55,7 @@ final class RewindableIterator implements Iterator
      * @param Iterator $itr
      * @param int $maxNum
      */
-    public function __construct(Iterator $itr, int $maxNum = 100)
+    public function __construct(Iterator $itr, int $maxNum = 500)
     {
         $this->original = $itr;
         $this->maxNum = $maxNum;

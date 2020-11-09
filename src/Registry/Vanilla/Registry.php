@@ -83,6 +83,8 @@ final class Registry implements RegistryInterface
             } else {
                 if (!($default instanceof ValueInterface)) {
                     $ret = ($this->bp ?? new Value())->assign($default);
+                } else {
+                    $ret = $default;
                 }
             }
         } else {

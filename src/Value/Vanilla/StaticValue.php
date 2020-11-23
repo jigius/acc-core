@@ -20,40 +20,8 @@ use LogicException;
  * Class Value
  * @package Acc\Core\Value\Vanilla
  */
-final class Value implements ValueInterface
+final class StaticValue implements StaticValueInterface, ValueInterface
 {
-    /**
-     * An original value
-     * @var mixed|null
-     */
-    private $val;
-
-    /**
-     * Signs if a value is defined
-     * @var bool
-     */
-    private bool $defined;
-
-    /**
-     * Value constructor.
-     */
-    public function __construct()
-    {
-        $this->val = null;
-        $this->defined = false;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function assign($val): self
-    {
-        $obj = $this->blueprinted();
-        $obj->val = $val;
-        $obj->defined = true;
-        return $obj;
-    }
-
     /**
      * @inheritDoc
      * @throws LogicException Throws an exception if value is undefined

@@ -15,6 +15,7 @@ namespace Acc\Core\Value\Vanilla;
 
 use Acc\Core\Value\ProcessableInterface;
 use Acc\Core\Value\ValueInterface;
+use LogicException;
 
 /**
  * Wrap class WithProcessor
@@ -48,16 +49,6 @@ final class WithProcessor implements ProcessableInterface
     /**
      * @inheritDoc
      */
-    public function assign($val): self
-    {
-        $obj = $this->blueprinted();
-        $obj->original = $this->original->assign($val);
-        return $obj;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function withProcessor(callable $processor): self
     {
         $obj = $this->blueprinted();
@@ -78,23 +69,14 @@ final class WithProcessor implements ProcessableInterface
      */
     public function fetch()
     {
-        return $this->processedOriginalValue()->fetch();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function defined(): bool
-    {
-        return $this->processedOriginalValue()->defined();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function type(): string
-    {
-        return $this->processedOriginalValue()->type();
+        if ($this->p === null) {
+            throw new LogicException("a processor is not defined");
+        }
+        $val = call_user_func($this->p, $this->original);
+        if (!($val instanceof ValueInterface)) {
+            throw new LogicException("type is invalid");
+        }
+        return $val->fetch();
     }
 
     /**
@@ -106,17 +88,5 @@ final class WithProcessor implements ProcessableInterface
         $obj = new self($this->original);
         $obj->p = $this->p;
         return $obj;
-    }
-
-    /**
-     * Processes an original value and return a new one
-     * @return ValueInterface
-     */
-    private function processedOriginalValue(): ValueInterface
-    {
-        if ($this->p === null) {
-            throw new \LogicException("a processor is not defined yet");
-        }
-        return call_user_func($this->p, $this->original);
     }
 }

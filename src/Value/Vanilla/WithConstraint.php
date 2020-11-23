@@ -31,10 +31,10 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     private ValueInterface $original;
 
     /**
-     * assets that are used for testing of a value
-     * @var array
+     * asset that are used for testing of a value
+     * @var AssetInterface|null
      */
-    private array $a;
+    private ?AssetInterface $a;
 
     /**
      * Value constructor.
@@ -43,7 +43,7 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     public function __construct(ValueInterface $val)
     {
         $this->original = $val;
-        $this->a = [];
+        $this->a = null;
     }
 
     /**
@@ -52,17 +52,7 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     public function withAsset(AssetInterface $asset): self
     {
         $obj = $this->blueprinted();
-        $obj->a[] = $asset;
-        return $obj;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function assign($val): self
-    {
-        $obj = $this->blueprinted();
-        $obj->original = $this->original->assign($val);
+        $obj->a = $asset;
         return $obj;
     }
 
@@ -72,12 +62,7 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     public function fetch()
     {
         $val = $this->original->fetch();
-        array_walk(
-            $this->a,
-            function ($asset) use ($val) {
-                $asset->test($val);
-            }
-        );
+        $this->a->test($val);
         return $val;
     }
 
@@ -87,22 +72,6 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     public function original(): ValueInterface
     {
         return $this->original;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function defined(): bool
-    {
-        return $this->original->defined();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function type(): string
-    {
-        return $this->original->type();
     }
 
     /**

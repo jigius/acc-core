@@ -15,7 +15,7 @@ namespace Acc\Core\Registry\Vanilla;
 
 use Acc\Core\Registry\RegistryInterface;
 use Acc\Core\Value\ValueInterface;
-use Acc\Core\Value\Vanilla\Value;
+use Acc\Core\Value\Vanilla\StaticValue;
 use ArrayIterator, Iterator;
 
 /**
@@ -51,7 +51,7 @@ final class Registry implements RegistryInterface
     {
        $obj = $this->blueprinted();
        if (!($val instanceof ValueInterface)) {
-           $val = ($this->bp ?? new Value())->assign($val);
+           $val = ($this->bp ?? new StaticValue())->assign($val);
        }
        $obj->vals[$key] = $val;
        return $obj;
@@ -79,10 +79,10 @@ final class Registry implements RegistryInterface
     {
         if (!$this->defined($key)) {
             if ($default === null) {
-                $ret = $this->bp ?? new Value();
+                $ret = $this->bp ?? new StaticValue();
             } else {
                 if (!($default instanceof ValueInterface)) {
-                    $ret = ($this->bp ?? new Value())->assign($default);
+                    $ret = ($this->bp ?? new StaticValue())->assign($default);
                 } else {
                     $ret = $default;
                 }

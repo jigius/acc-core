@@ -15,7 +15,6 @@ namespace Acc\Core\Value\Vanilla;
 
 use Acc\Core\PrinterInterface;
 use Acc\Core\Value\FailedExceptionInterface;
-use Acc\Core\Value\ValueInterface;
 use DomainException;
 use Throwable;
 

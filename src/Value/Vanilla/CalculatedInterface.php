@@ -14,28 +14,35 @@ declare(strict_types=1);
 namespace Acc\Core\Value\Vanilla;
 
 use Acc\Core\Value\ValueInterface;
-use LogicException;
 
 /**
  * Interface ValueInterface
  * Defines a base contract for Value objects
  * @package Acc\Core\Value\Vanilla
  */
-interface CalculatedValueInterface extends ValueInterface
+interface CalculatedInterface
 {
     /**
      * Defines a param
      * @param string $name a name
      * @param ValueInterface $val a value
-     * @return CalculatedValueInterface
+     * @return CalculatedInterface
      */
-    public function withParam(string $name, ValueInterface $val): CalculatedValueInterface;
+    public function withParam(string $name, ValueInterface $val): CalculatedInterface;
 
     /**
      * Defines an argument for a named param
+     *
      * @param string $name a param's name
-     * @param $val a value
-     * @return CalculatedValueInterface
+     * @param mixed $val a value
+     * @return CalculatedInterface
      */
-    public function withArg(string $name, $val): CalculatedValueInterface;
+    public function withArg(string $name, $val): CalculatedInterface;
+
+    /**
+     * Defimes an anonymous function that do a calculation of a value
+     * @param callable $c
+     * @return CalculatedInterface
+     */
+    public function withCalculi(callable $c): CalculatedInterface;
 }

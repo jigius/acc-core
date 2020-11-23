@@ -23,6 +23,7 @@ interface AssetInterface
     /**
      * Tests an asset
      * @param mixed $val
+     * @throw FailedExceptionInterface
      */
-    public function test($val): void;
+    public function test(ValueInterface $val): void;
 }

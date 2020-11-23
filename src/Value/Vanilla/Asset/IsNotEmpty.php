@@ -41,12 +41,15 @@ final class IsNotEmpty implements Value\AssetInterface
      * @inheritDoc
      * @throws FailedException
      */
-    public function test($val): void
+    public function test(Value\ValueInterface $val): void
     {
         if ($this->orig !== null) {
             $this->orig->test($val);
         }
-        if (empty($val)) {
+        if (!$val->defined()) {
+            throw new FailedException("undefined");
+        }
+        if (empty($val->fetch())) {
             throw new FailedException("is empty");
         }
     }

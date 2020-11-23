@@ -49,12 +49,15 @@ final class HasContract implements Value\AssetInterface
      * @inheritDoc
      * @throws FailedException
      */
-    public function test($val): void
+    public function test(Value\ValueInterface $val): void
     {
         if ($this->orig !== null) {
             $this->orig->test($val);
         }
-        if (!($val instanceof $this->test)) {
+        if (!$val->defined()) {
+            throw new FailedException("undefined");
+        }
+        if (!($val->fetch() instanceof $this->test)) {
             throw new FailedException("the object does not implement contract=`{$this->test}`");
         }
     }

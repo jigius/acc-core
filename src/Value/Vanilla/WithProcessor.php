@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Acc\Core\Value\Vanilla;
 
-use Acc\Core\Value\ProcessableInterface;
 use Acc\Core\Value\ValueInterface;
+use Acc\Core\Value\CalculatedValueInterface;
 use LogicException;
 
 /**
@@ -22,7 +22,7 @@ use LogicException;
  * Adds the ability to preprocessing of an original value before its returning (method fetch())
  * @package Acc\Core\Value\Vanilla
  */
-final class WithProcessor implements ProcessableInterface
+final class WithProcessor implements ProcessableInterface, CalculatedValueInterface
 {
     /**
      * An original value
@@ -59,15 +59,31 @@ final class WithProcessor implements ProcessableInterface
     /**
      * @inheritDoc
      */
-    public function original(): ValueInterface
+    public function fetch()
     {
-        return $this->original;
+        return $this->calculated()->fetch();
     }
 
     /**
      * @inheritDoc
      */
-    public function fetch()
+    public function type(): string
+    {
+        return $this->calculated()->type();
+    }
+
+    /**
+     * @return bool
+     */
+    public function defined(): bool
+    {
+        return $this->calculated()->defined();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function calculated(): ValueInterface
     {
         if ($this->p === null) {
             throw new LogicException("a processor is not defined");
@@ -76,7 +92,18 @@ final class WithProcessor implements ProcessableInterface
         if (!($val instanceof ValueInterface)) {
             throw new LogicException("type is invalid");
         }
-        return $val->fetch();
+        return $val;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function assign($val): self
+    {
+        $obj = $this->blueprinted();
+        $obj->original = $this->original->assign($val);
+        return $obj;
     }
 
     /**

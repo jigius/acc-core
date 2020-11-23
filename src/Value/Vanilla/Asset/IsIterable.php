@@ -41,12 +41,15 @@ final class IsIterable implements Value\AssetInterface
      * @inheritDoc
      * @throws FailedException
      */
-    public function test($val): void
+    public function test(Value\ValueInterface $val): void
     {
         if ($this->orig !== null) {
             $this->orig->test($val);
         }
-        if (!is_iterable($val)) {
+        if (!$val->defined()) {
+            throw new FailedException("undefined");
+        }
+        if (!is_iterable($val->fetch())) {
             throw new FailedException("is not iterable");
         }
     }

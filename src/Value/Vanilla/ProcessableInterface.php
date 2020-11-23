@@ -11,10 +11,13 @@
 
 declare(strict_types=1);
 
-namespace Acc\Core\Value;
+namespace Acc\Core\Value\Vanilla;
+
+use Acc\Core\Value\ValueInterface;
 
 /**
  * Interface ProcessableInterface
+ *
  * @package Acc\Core\Value
  */
 interface ProcessableInterface extends ValueInterface
@@ -25,10 +28,4 @@ interface ProcessableInterface extends ValueInterface
      * @return ProcessableInterface
      */
     public function withProcessor(callable $processor): ProcessableInterface;
-
-    /**
-     * Returns an original incapsulated instance
-     * @return ValueInterface
-     */
-    public function original(): ValueInterface;
 }

@@ -21,19 +21,19 @@ use LogicException;
  * Makes impossible to redefine an already defined original static value
  * @package Acc\Core\Value\Vanilla
  */
-final class SealedValue implements StaticValueInterface
+final class SealedValue implements ValueInterface
 {
     /**
      * An original value
-     * @var StaticValueInterface
+     * @var ValueInterface
      */
     private $original;
 
     /**
      * SealedValue constructor.
-     * @param StaticValueInterface $v
+     * @param ValueInterface $v
      */
-    public function __construct(StaticValueInterface $v)
+    public function __construct(ValueInterface $v)
     {
         $this->original = $v;
     }

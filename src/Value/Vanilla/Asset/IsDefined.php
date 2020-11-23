@@ -17,10 +17,10 @@ use Acc\Core\Value;
 use Acc\Core\Value\Vanilla\FailedException;
 
 /**
- * Class IsString
+ * Class IsDefined
  * @package Acc\Core\Value\Vanilla\Asset
  */
-final class IsString implements Value\AssetInterface
+final class IsDefined implements Value\AssetInterface
 {
     /**
      * A decorated asset
@@ -47,10 +47,7 @@ final class IsString implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("undefined");
-        }
-        if (!is_string($val->fetch())) {
-            throw new FailedException("is not string");
+            throw new FailedException("is undefined");
         }
     }
 }

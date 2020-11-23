@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Acc\Core\Value\Vanilla\Asset;
 
 use Acc\Core\Value;
+use Acc\Core\Value\Vanilla\FailedException;
+use Throwable;
 
 /**
  * Class Custom
@@ -45,9 +47,9 @@ final class Custom implements Value\AssetInterface
 
     /**
      * @inheritDoc
-     * @throws FailureException
+     * @throws FailedException|Throwable
      */
-    public function test($val): void
+    public function test(Value\ValueInterface $val): void
     {
         if ($this->orig !== null) {
             $this->orig->test($val);

@@ -14,21 +14,14 @@ declare(strict_types=1);
 namespace Acc\Core\Value;
 
 /**
- * Interface ConstraintInterface
+ * Interface CalculatedValueInterface
  * @package Acc\Core\Value
  */
-interface ConstraintInterface
+interface CalculatedValueInterface
 {
     /**
-     * Appends an asset, that will be used to check a constraint of an assigned value in a time of fetching of its
-     * @param AssetInterface $asset
-     * @return ConstraintInterface
-     */
-    public function withAsset(AssetInterface $asset): ConstraintInterface;
-
-    /**
-     * Returns an original incapsulated instance
+     * Returns a value as a result of a some calculations
      * @return ValueInterface
      */
-    public function original(): ValueInterface;
+    public function calculated(): ValueInterface;
 }

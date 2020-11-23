@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Acc\Core\Registry\Vanilla;
 
 use Acc\Core\Registry;
-use Acc\Core\Value\ValueInterface;
+use Acc\Core\Value\StaticValueInterface;
 use Iterator;
 use LogicException;
 
@@ -68,7 +68,7 @@ final class SealedRegistry implements Registry\RegistryInterface
     /**
      * @inheritDoc
      */
-    public function pulled(string $key, $default = null): ValueInterface
+    public function pulled(string $key, $default = null): StaticValueInterface
     {
         return $this->original->pulled($key, $default);
     }

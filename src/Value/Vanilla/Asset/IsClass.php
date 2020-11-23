@@ -49,12 +49,15 @@ final class IsClass implements Value\AssetInterface
      * @inheritDoc
      * @throws FailedException
      */
-    public function test($val): void
+    public function test(Value\ValueInterface $val): void
     {
         if ($this->orig !== null) {
             $this->orig->test($val);
         }
-        if (is_a($val, $this->test)) {
+        if (!$val->defined()) {
+            throw new FailedException("undefined");
+        }
+        if (is_a($val->fetch(), $this->test)) {
             throw new FailedException("is not class=`{$this->test}`");
         }
     }

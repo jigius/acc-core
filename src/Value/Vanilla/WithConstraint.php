@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Acc\Core\Value\Vanilla;
 
 use Acc\Core\Value\AssetInterface;
-use Acc\Core\Value\ConstraintInterface;
+use Acc\Core\Value\CalculatedValueInterface;
 use Acc\Core\Value\ValueInterface;
 
 /**
@@ -22,7 +22,7 @@ use Acc\Core\Value\ValueInterface;
  * Adds the ability to check added constraints before returning of an original value (method fetch())
  * @package Acc\Core\Value\Vanilla
  */
-final class WithConstraint implements ConstraintInterface, ValueInterface
+final class WithConstraint implements ConstraintInterface, CalculatedValueInterface
 {
     /**
      * An original value
@@ -59,18 +59,43 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     /**
      * @inheritDoc
      */
-    public function fetch()
+    public function assign($val): self
     {
-        $val = $this->original->fetch();
-        $this->a->test($val);
-        return $val;
+        $obj = $this->blueprinted();
+        $obj->original = $this->original->assign($val);
+        return $obj;
     }
 
     /**
      * @inheritDoc
      */
-    public function original(): ValueInterface
+    public function fetch()
     {
+        return $this->calculated()->fetch();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function type(): string
+    {
+        return $this->calculated()->type();
+    }
+
+    /**
+     * @return bool
+     */
+    public function defined(): bool
+    {
+        return $this->calculated()->defined();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function calculated(): ValueInterface
+    {
+        $this->a->test($this->original);
         return $this->original;
     }
 

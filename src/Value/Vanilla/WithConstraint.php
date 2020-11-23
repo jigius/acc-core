@@ -84,6 +84,14 @@ final class WithConstraint implements ConstraintInterface, ValueInterface
     /**
      * @inheritDoc
      */
+    public function original(): ValueInterface
+    {
+        return $this->original;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function defined(): bool
     {
         return $this->original->defined();

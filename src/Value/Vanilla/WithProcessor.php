@@ -68,6 +68,14 @@ final class WithProcessor implements ProcessableInterface
     /**
      * @inheritDoc
      */
+    public function original(): ValueInterface
+    {
+        return $this->original;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function fetch()
     {
         return $this->processedOriginalValue()->fetch();

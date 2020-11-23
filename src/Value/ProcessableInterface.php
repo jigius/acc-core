@@ -27,8 +27,8 @@ interface ProcessableInterface extends ValueInterface
     public function withProcessor(callable $processor): ProcessableInterface;
 
     /**
-     * Returns passed value processed with a processor (if defined)
-     * @return mixed
+     * Returns an original incapsulated instance
+     * @return ValueInterface
      */
-    public function fetch();
+    public function original(): ValueInterface;
 }

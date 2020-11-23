@@ -25,7 +25,7 @@ final class SealedValue implements ValueInterface
 {
     /**
      * An original value
-     * @var mixed|null
+     * @var mixed
      */
     private $original;
 

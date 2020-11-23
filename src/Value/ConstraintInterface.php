@@ -25,4 +25,10 @@ interface ConstraintInterface
      * @return ConstraintInterface
      */
     public function withAsset(AssetInterface $asset): ConstraintInterface;
+
+    /**
+     * Returns an original incapsulated instance
+     * @return ValueInterface
+     */
+    public function original(): ValueInterface;
 }

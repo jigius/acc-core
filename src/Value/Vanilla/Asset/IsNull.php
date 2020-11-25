@@ -47,10 +47,14 @@ final class IsNull implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("undefined");
+            throw
+                (new FailedException("undefined"))
+                    ->withValue($val);
         }
         if ($val->fetch() !== null) {
-            throw new FailedException("expecting NULL");
+            throw
+                (new FailedException("expecting NULL"))
+                    ->withValue($val);
         }
     }
 }

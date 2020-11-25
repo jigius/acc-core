@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Acc\Core\Value\Vanilla;
 
+use Acc\Core\Value\ChainedValueInterface;
 use Acc\Core\Value\ValueInterface;
 use Acc\Core\Value\CalculatedValueInterface;
 use LogicException;
@@ -22,7 +23,7 @@ use LogicException;
  * Adds the ability to preprocessing of an original value before its returning (method fetch())
  * @package Acc\Core\Value\Vanilla
  */
-final class WithProcessor implements ProcessableInterface, CalculatedValueInterface
+final class WithProcessor implements ProcessableInterface, CalculatedValueInterface, ChainedValueInterface
 {
     /**
      * An original value
@@ -99,11 +100,23 @@ final class WithProcessor implements ProcessableInterface, CalculatedValueInterf
     /**
      * @inheritDoc
      */
-    public function assign($val): self
+    public function assigned($val): self
     {
         $obj = $this->blueprinted();
-        $obj->original = $this->original->assign($val);
+        $obj->original = $this->original->assigned($val);
         return $obj;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function original(): ValueInterface
+    {
+        $original = $this->original;
+        if ($original instanceof ChainedValueInterface) {
+            $original = $original->original();
+        }
+        return $original;
     }
 
     /**
@@ -116,4 +129,5 @@ final class WithProcessor implements ProcessableInterface, CalculatedValueInterf
         $obj->p = $this->p;
         return $obj;
     }
+
 }

@@ -47,7 +47,9 @@ final class IsNotDefined implements Value\AssetInterface
             $this->orig->test($val);
         }
         if ($val->defined()) {
-            throw new FailedException("is defined");
+            throw
+                (new FailedException("is defined"))
+                    ->withValue($val);
         }
     }
 }

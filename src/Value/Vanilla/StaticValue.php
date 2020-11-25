@@ -45,7 +45,7 @@ final class StaticValue implements ValueInterface
     /**
      * @inheritDoc
      */
-    public function assign($val): self
+    public function assigned($val): self
     {
         $obj = $this->blueprinted();
         $obj->val = $val;

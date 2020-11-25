@@ -47,10 +47,14 @@ final class IsIterable implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("undefined");
+            throw
+                (new FailedException("undefined"))
+                    ->withValue($val);
         }
         if (!is_iterable($val->fetch())) {
-            throw new FailedException("is not iterable");
+            throw
+                (new FailedException("is not iterable"))
+                    ->withValue($val);
         }
     }
 }

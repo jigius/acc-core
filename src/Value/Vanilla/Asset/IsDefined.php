@@ -47,7 +47,9 @@ final class IsDefined implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("is undefined");
+            throw
+                (new FailedException("is undefined"))
+                    ->withValue($val);
         }
     }
 }

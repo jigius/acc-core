@@ -16,6 +16,8 @@ namespace Acc\Core\Value\Vanilla;
 use Acc\Core\Registry\RegistryInterface;
 use Acc\Core\Registry\Vanilla\Registry;
 use Acc\Core\Value;
+use Acc\Core\Value\CalculatedValueInterface;
+use Acc\Core\Value\ValueInterface;
 use LogicException;
 
 /**
@@ -102,7 +104,7 @@ final class CalculatedValue implements CalculatedInterface, Value\ValueInterface
     /**
      * @inheritDoc
      */
-    public function assign($val): self
+    public function assigned($val): self
     {
         throw new LogicException("is not applicable");
     }

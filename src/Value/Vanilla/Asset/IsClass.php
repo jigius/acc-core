@@ -55,10 +55,14 @@ final class IsClass implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("undefined");
+            throw
+                (new FailedException("undefined"))
+                    ->withValue($val);
         }
         if (is_a($val->fetch(), $this->test)) {
-            throw new FailedException("is not class=`{$this->test}`");
+            throw
+                (new FailedException("is not class=`{$this->test}`"))
+                    ->withValue($val);
         }
     }
 }

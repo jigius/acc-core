@@ -41,7 +41,7 @@ final class SealedValue implements ValueInterface
     /**
      * @inheritDoc
      */
-    public function assign($val): self
+    public function assigned($val): self
     {
         if ($this->original->defined()) {
             throw
@@ -50,7 +50,7 @@ final class SealedValue implements ValueInterface
                 );
         }
         $obj = $this->blueprinted();
-        $obj->original = $this->original->assign($val);
+        $obj->original = $this->original->assigned($val);
         return $obj;
     }
 

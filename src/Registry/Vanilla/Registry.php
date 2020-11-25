@@ -51,7 +51,7 @@ final class Registry implements RegistryInterface
     {
        $obj = $this->blueprinted();
        if (!($val instanceof ValueInterface)) {
-           $val = ($this->bp ?? new StaticValue())->assign($val);
+           $val = ($this->bp ?? new StaticValue())->assigned($val);
        }
        $obj->vals[$key] = $val;
        return $obj;
@@ -67,7 +67,7 @@ final class Registry implements RegistryInterface
             $obj = $this->pushed($key, $val);
         } else {
             $obj = $this->blueprinted();
-            $obj->vals[$key] = $this->pulled($key)->assign($val);
+            $obj->vals[$key] = $this->pulled($key)->assigned($val);
         }
         return $obj;
     }
@@ -82,7 +82,7 @@ final class Registry implements RegistryInterface
                 $ret = $this->bp ?? new StaticValue();
             } else {
                 if (!($default instanceof ValueInterface)) {
-                    $ret = ($this->bp ?? new StaticValue())->assign($default);
+                    $ret = ($this->bp ?? new StaticValue())->assigned($default);
                 } else {
                     $ret = $default;
                 }

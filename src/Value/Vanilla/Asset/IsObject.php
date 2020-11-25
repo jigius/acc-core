@@ -47,10 +47,14 @@ final class IsObject implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("undefined");
+            throw
+                (new FailedException("undefined"))
+                    ->withValue($val);
         }
         if (!is_object($val->fetch())) {
-            throw new FailedException("is not object");
+            throw
+                (new FailedException("is not object"))
+                    ->withValue($val);
         }
     }
 }

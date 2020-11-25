@@ -47,10 +47,14 @@ final class IsArray implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("undefined");
+            throw
+                (new FailedException("undefined"))
+                    ->withValue($val);
         }
         if (!is_array($val->fetch())) {
-            throw new FailedException("is not array");
+            throw
+                (new FailedException("is not array"))
+                    ->withValue($val);
         }
     }
 }

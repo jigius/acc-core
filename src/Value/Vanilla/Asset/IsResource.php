@@ -50,7 +50,9 @@ final class IsResource implements Value\AssetInterface
             throw new FailedException("undefined");
         }
         if (!is_resource($val->fetch())) {
-            throw new FailedException("is not resource");
+            throw
+                (new FailedException("is not resource"))
+                    ->withValue($val);
         }
     }
 }

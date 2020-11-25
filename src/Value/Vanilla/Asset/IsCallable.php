@@ -47,10 +47,14 @@ final class IsCallable implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("undefined");
+            throw
+                (new FailedException("undefined"))
+                    ->withValue($val);
         }
         if (!is_callable($val->fetch())) {
-            throw new FailedException("is not callable");
+            throw
+                (new FailedException("is not callable"))
+                    ->withValue($val);
         }
     }
 }

@@ -32,7 +32,7 @@ interface ValueInterface
      * @param mixed $val a value
      * @return ValueInterface
      */
-    public function assign($val): ValueInterface;
+    public function assigned($val): ValueInterface;
 
     /**
      * Checks if the instance has defined value or not

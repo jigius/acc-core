@@ -17,22 +17,22 @@ use Acc\Core\Value;
 use Acc\Core\Value\Vanilla\FailedException;
 
 /**
- * Class IsNotNull
+ * Class IsNotMandatory
  * @package Acc\Core\Value\Vanilla\Asset
  */
-final class IsNotNull implements Value\AssetInterface
+final class IsNotMandatory implements Value\AssetInterface
 {
     /**
      * A decorated asset
-     * @var Value\AssetInterface|null
+     * @var Value\AssetInterface
      */
-    private ?Value\AssetInterface $orig;
+    private Value\AssetInterface $original;
 
     /**
-     * IsClass constructor.
-     * @param Value\AssetInterface|null $asset
+     * IsNotMandatory constructor.
+     * @param Value\AssetInterface $asset
      */
-    public function __construct(?Value\AssetInterface $asset = null)
+    public function __construct(Value\AssetInterface $asset)
     {
         $this->orig = $asset;
     }
@@ -43,18 +43,9 @@ final class IsNotNull implements Value\AssetInterface
      */
     public function test(Value\ValueInterface $val): void
     {
-        if ($this->orig !== null) {
-            $this->orig->test($val);
-        }
         if (!$val->defined()) {
-            throw
-                (new FailedException("undefined"))
-                    ->withValue($val);
+            return;
         }
-        if ($val->fetch() === null) {
-            throw
-                (new FailedException("NULL is not allowed"))
-                    ->withValue($val);
-        }
+        $this->orig->test($val);
     }
 }

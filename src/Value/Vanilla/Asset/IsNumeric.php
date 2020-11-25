@@ -47,10 +47,14 @@ final class IsNumeric implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("undefined");
+            throw
+                (new FailedException("undefined"))
+                    ->withValue($val);
         }
         if (!is_numeric($val->fetch())) {
-            throw new FailedException("is not numeric");
+            throw
+                (new FailedException("is not numeric"))
+                    ->withValue($val);
         }
     }
 }

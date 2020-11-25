@@ -47,10 +47,14 @@ final class IsNotEmpty implements Value\AssetInterface
             $this->orig->test($val);
         }
         if (!$val->defined()) {
-            throw new FailedException("undefined");
+            throw
+                (new FailedException("undefined"))
+                    ->withValue($val);
         }
         if (empty($val->fetch())) {
-            throw new FailedException("is empty");
+            throw
+                (new FailedException("is empty"))
+                    ->withValue($val);
         }
     }
 }

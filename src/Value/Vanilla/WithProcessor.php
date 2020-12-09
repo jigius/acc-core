@@ -96,7 +96,6 @@ final class WithProcessor implements ProcessableInterface, CalculatedValueInterf
         return $val;
     }
 
-
     /**
      * @inheritDoc
      */

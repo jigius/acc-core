@@ -29,8 +29,8 @@ interface SerializableInterface
     public function unserialized(iterable $data);
 
     /**
-     * Creates a serialized object's state in form of a string
-     * @return string
+     * Creates a serialized object's state in form of an iterable
+     * @return iterable
      */
-    public function serialized(): string;
+    public function serialized(): iterable;
 }

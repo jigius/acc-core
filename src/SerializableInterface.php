@@ -23,10 +23,10 @@ interface SerializableInterface
 
     /**
      * Creates an object from its serialized state
-     * @param string $input
+     * @param iterable $data
      * @return mixed
      */
-    public function unserialized(string $input);
+    public function unserialized(iterable $data);
 
     /**
      * Creates a serialized object's state in form of a string

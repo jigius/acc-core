@@ -28,5 +28,5 @@ interface TaskInterface extends SerializableInterface
     /**
      * @inheritDoc
      */
-    public function unserialized(string $input): TaskInterface;
+    public function unserialized(iterable $data): TaskInterface;
 }

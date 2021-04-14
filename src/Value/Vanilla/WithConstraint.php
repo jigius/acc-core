@@ -88,7 +88,7 @@ final class WithConstraint implements ConstraintInterface, CalculatedValueInterf
      */
     public function defined(): bool
     {
-        return $this->calculated()->defined();
+        return $this->original->defined();
     }
 
     /**
